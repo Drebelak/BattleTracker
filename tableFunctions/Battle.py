@@ -40,7 +40,7 @@ def get_battle_list():
 def query_battle_by_city(city):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM battle WHERE city = %s GROUP BY battle_ranking", city)
+    cursor.execute("SELECT * FROM battle WHERE city = %s GROUP BY ranking", city)
     rows = cursor.fetchall()
     print("rank\turl\t\t\tcity\t\t\t\tdesc")
     data = {}
@@ -48,3 +48,5 @@ def query_battle_by_city(city):
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
         data[str(row[3])] = {'url': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
     return data
+
+query_battle_by_city("New York")
