@@ -49,4 +49,13 @@ def query_battle_by_city(city):
         data[str(row[3])] = {'url': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
     return data
 
-query_battle_by_city("New York")
+
+#get_battle_list()
+
+#add_battle(100, "Mexico City", "Awesome", "NONE")
+
+#edit_battle(100, "Mexico City", "Terrible", "Still None")
+
+#delete_battle(100)
+
+get_battle_list()
