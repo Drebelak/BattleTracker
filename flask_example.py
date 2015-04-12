@@ -15,7 +15,7 @@ def test_page():
 @app.route('/')
 def test_api_flask():
     battles = Battle.get_battle_list()
-    return render_template('test.html', battles=battles['1']['city'])
+    return render_template('test.html', battles=battles)
 
 
 @app.route('/api/battles', methods=['GET'])
