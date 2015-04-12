@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 import Database
 import tableFunctions.Battle as Battle
 import tableFunctions.Character as Character
@@ -13,9 +13,25 @@ def test_page():
 
 
 @app.route('/')
+def test_flask():
+    return render_template('home.html')
+
+
+@app.route('/', methods=['POST'])
+def search_form():
+    search_value = request.form['sbox']
+    category = request.form['category']
+    response = ""
+    if category == "Battle Ranking":
+        response = Battle.query_battle_by_ranking(search_value)
+    print search_value + " and " + category
+    return render_template('home.html', res=response)
+
+
+@app.route('/map')
 def test_api_flask():
     battles = Battle.get_battle_list()
-    return render_template('test.html', battles=battles)
+    return render_template('test.html', b=battles)
 
 
 @app.route('/api/battles', methods=['GET'])

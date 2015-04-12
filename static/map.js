@@ -5,17 +5,18 @@ var geocoder;
 var map;
 
 function codeAddress() {
-  var address = '{{ battles.1.city }}';
-    return geocoder.geocode({ 'address': address}, function (results, status) {
+  var address = '{{ b.1.city }}';
+    geocoder.geocode({ 'address': address}, function (results, status) {
+        console.log('i get the add' + address);
       if (status == google.maps.GeocoderStatus.OK) {
+          console.log('in if');
           map.setCenter(results[0].geometry.location);
-          return new google.maps.Marker({
+          var marker = new google.maps.Marker({
               map: map,
               position: results[0].geometry.location
           });
       } else {
           alert('Geocode was not successful for the following reason: ' + status);
-          return null;
       }
   });
 }
