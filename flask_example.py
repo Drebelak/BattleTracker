@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import Database
 import tableFunctions.Battle as Battle
 import tableFunctions.Character as Character
@@ -10,6 +10,12 @@ app = Flask(__name__)
 @app.route('/test')
 def test_page():
     return 'This is a Test'
+
+
+@app.route('/')
+def test_api_flask():
+    battles = Battle.get_battle_list()
+    return render_template('test.html', battles=battles['1']['city'])
 
 
 @app.route('/api/battles', methods=['GET'])

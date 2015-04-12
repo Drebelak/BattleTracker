@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+        <title>Battle Tracker</title>
+
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+        <script>var battle = '{{ battles }}';</script>
+        <script type="text/javascript" src="{{ url_for('static', filename='map.js') }}"></script>
+    </head>
+    <body>
+        <p>Battle Tracker</p>
+        <button onclick="alert('Battle: ' + battle)">Click</button>
+        <div id="map-canvas"></div>
+    </body>
+</html>
