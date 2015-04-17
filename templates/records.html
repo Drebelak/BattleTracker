@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='recordstyles.css') }}">
+</head>
+
+<h1>This is the Records page</h1>
+
+<h2>Movies</h2>
+<section class="loginform cf">
+	<form id="movie_form" action="/records" method="POST" accept-charset="utf-8">
+        <label>
+            <select name="operation" form="movie_form">
+                <option>Add</option>
+                <option>Edit</option>
+                <option>Delete</option>
+            </select>
+        </label>
+        <input type="text" name="attr1" placeholder="Title">
+	    <input type="text" name="attr2" placeholder="Year">
+	    <input type="text" name="attr3" placeholder="Rating">
+	    <input type="text" name="attr4" placeholder="Battle Ranking">
+        <input type="hidden" name="user" id="user_m" value="test">
+        <input type="hidden" name="password" id="password_m" value="heyo">
+        <input type="hidden" name="type" value="movie">
+        <script>
+            var user = '{{ user }}';
+            var password = '{{ password }}';
+            document.getElementById('user_m').value = user;
+            document.getElementById('password_m').value = password;
+        </script>
+	    <input type="submit" value="Submit!">
+	</form>
+</section>
+
+<h2>Character</h2>
+<section class="loginform cf">
+	<form id="character_form" action="/records" method="POST" accept-charset="utf-8">
+        <label>
+            <select name="operation" form="character_form">
+                <option>Add</option>
+                <option>Edit</option>
+                <option>Delete</option>
+            </select>
+        </label>
+
+        <input type="text" name="attr1" placeholder="Name">
+	    <input type="text" name="attr2" placeholder="Role">
+	    <input type="text" name="attr3" placeholder="Battle Ranking">
+        <input type="hidden" name="user" id="user_c" value="">
+        <input type="hidden" name="password" id="password_c" value="">
+                <input type="hidden" name="type" value="character">
+        <script>
+            var user = '{{ user }}';
+            var password = '{{ password }}';
+            document.getElementById('user_c').value = user;
+            document.getElementById('password_c').value = password;
+        </script>
+	    <input type="submit" value="Submit!">
+	</form>
+</section>
+
+<h2>Battle</h2>
+<section class="loginform cf">
+	<form id="battle_form" action="/records" method="POST" accept-charset="utf-8">
+        <label>
+            <select name="operation" form="battle_form">
+                <option>Add</option>
+                <option>Edit</option>
+                <option>Delete</option>
+            </select>
+        </label>
+        <input type="text" name="attr1" placeholder="Ranking">
+	    <input type="text" name="attr2" placeholder="City">
+	    <input type="text" name="attr3" placeholder="Description">
+	    <input type="text" name="attr4" placeholder="Video Link">
+        <input type="hidden" name="user" id="user_b" value="">
+        <input type="hidden" name="password" id="password_b" value="">
+        <input type="hidden" name="type" value="battle">
+        <script>
+            var user = '{{ user }}';
+            var password = '{{ password }}';
+            document.getElementById('user_b').value = user;
+            document.getElementById('password_b').value = password;
+        </script>
+	    <input type="submit" value="Submit!">
+	</form>
+
+    <form action="/">
+        <input type="submit" value="Logout">
+    </form>
+</section>

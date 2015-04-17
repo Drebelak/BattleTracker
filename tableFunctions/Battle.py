@@ -1,4 +1,6 @@
 __author__ = 'dylan'
+from json import dumps
+from urllib import quote
 from Connection import connect
 
 
@@ -33,8 +35,8 @@ def get_battle_list():
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
-        data[str(row[3])] = {'url': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
-    return data
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
 
 
 def query_battle_by_city(city):
@@ -46,8 +48,8 @@ def query_battle_by_city(city):
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
-        data[str(row[3])] = {'url': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
-    return data
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
 
 
 def query_battle_by_ranking(ranking):
@@ -59,8 +61,8 @@ def query_battle_by_ranking(ranking):
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
-        data[str(row[3])] = {'url': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
-    return data
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
 
 
 #get_battle_list()
@@ -71,4 +73,6 @@ def query_battle_by_ranking(ranking):
 
 #delete_battle(100)
 
-get_battle_list()
+#get_battle_list()
+
+#print query_battle_by_ranking('1')

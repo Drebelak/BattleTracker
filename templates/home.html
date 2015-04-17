@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Top 100 Battles</title>
-    <script>var res = '{{ res }}';</script>
+
 </head>
 
 <body>
@@ -19,25 +19,137 @@
             Category:
             <label>
                 <select name = "category" form = "searchform">
-                    <option value="Battle Ranking">Battle Ranking</option>
-                    <option value="City">City</option>
-                    <option value="Character">Character</option>
-                    <option value="Movie Title">Movie Title</option>
-                    <option value="Movie Year">Movie Year</option>
+                    <option value="Battle Ranking">Battle by Ranking</option>
+                    <option value="City">Battle by City</option>
+                    <option value="Character">Character by Name</option>
+                    <option value="Movie Title">Movie by Title</option>
+                    <option value="Movie Year">Movie by Year</option>
+                    <option value="All Battles">All Battles</option>
+                    <option value="All Characters">All Characters</option>
+                    <option value="All Movies">All Movies</option>
                 </select>
             </label>
             <br>
             <input type="submit" name="submit" value="Search">
-
-            <table>
-                <th></th>
-            </table>
         </form>
-
+        <form action="/records" method="GET">
+            <input type="submit" value="Login">
+        </form>
     </article>
 
+    <table id="display">
+        <thead id="thead"></thead>
+        <tbody id="tbody"></tbody>
+    </table>
 
+    <script type="text/javascript" >
+        var res = '{{ res }}';
+        var type = '{{ type }}'
+        var text = decodeURIComponent(res).toString();
+        console.log(text);
+        var obj = JSON.parse(text);
 
+        /*//for testing purposes
+        var para = document.getElementById("para");
+        para.innerHTML = res;*/
 
+        var key;
+        var row;
+        var cell1 = null;
+        var cell2 = null;
+        var cell3 = null;
+        var cell4 = null;
+        var header = document.getElementById("thead");
+        var body = document.getElementById("tbody");
+
+        function makeCells(_row) {
+            cell1 = _row.insertCell(0);
+            cell2 = _row.insertCell(1);
+            cell3 = _row.insertCell(2);
+            cell4 = _row.insertCell(3);
+        }
+
+        if (type == 'battle') {
+            var city;
+            var description;
+            var url;
+            if (header.rows.length > 0) {
+                header.deleteRow(0);
+            }
+            row = header.insertRow(0);
+            makeCells(row);
+            cell1.innerHTML = "Rank";
+            cell2.innerHTML = "Location";
+            cell3.innerHTML = "Description";
+            cell4.innerHTML = "Video Link";
+            for (var i = Object.keys(obj).length-1; i >= 0; i--) {
+                key = Object.keys(obj)[i];
+                city = obj[key].city;
+                description = obj[key].desc;
+                url = "http://tinyurl.com/" + obj[key].urllink;
+
+                row = body.insertRow(0);
+                makeCells(row);
+                cell1.innerHTML = key;
+                cell2.innerHTML = city;
+                cell3.innerHTML = description;
+                cell4.innerHTML = url;
+            }
+        }
+
+        if (type == 'character') {
+            var role;
+            var ranking;
+            if (header.rows.length > 0) {
+                header.deleteRow(0);
+            }
+            row = header.insertRow(0);
+            makeCells(row);
+            cell1.innerHTML = "Name";
+            cell2.innerHTML = "Role";
+            cell3.innerHTML = "Appears In";
+            cell4.innerHTML = "";
+            for (var j = Object.keys(obj).length-1; j >= 0; j--) {
+                key = Object.keys(obj)[j];
+                role = obj[key].role;
+                ranking = obj[key].battle_ranking;
+
+                row = body.insertRow(0);
+                makeCells(row);
+                cell1.innerHTML = key;
+                cell2.innerHTML = role;
+                cell3.innerHTML = ranking;
+                cell4.innerHTML = "";
+            }
+        }
+
+        if (type == 'movie') {
+            var year;
+            var rating;
+            var b_ranking;
+            if (header.rows.length > 0) {
+                header.deleteRow(0);
+            }
+            row = header.insertRow(0);
+            makeCells(row);
+            cell1.innerHTML = "Title";
+            cell2.innerHTML = "Year";
+            cell3.innerHTML = "Rating";
+            cell4.innerHTML = "Battle";
+            for (var k = Object.keys(obj).length-1; k >= 0; k--) {
+                key = Object.keys(obj)[k];
+                year = obj[key].year;
+                rating = obj[key].rating;
+                b_ranking = obj[key].battle_ranking;
+
+                row = body.insertRow(0);
+                makeCells(row);
+                cell1.innerHTML = key;
+                cell2.innerHTML = year;
+                cell3.innerHTML = rating;
+                cell4.innerHTML = b_ranking;
+            }
+        }
+    </script>
 </body>
 </html>

@@ -1,4 +1,6 @@
 __author__ = 'dylan'
+from json import dumps
+from urllib import quote
 from Connection import connect
 
 
@@ -33,8 +35,8 @@ def get_movie_list():
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
-        data[str(row[3])] = {'year': str(row[1]), 'rating': str(row[2]), 'title': str(row[0])}
-    return data
+        data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
+    return quote(dumps(data, sort_keys=True))
 
 
 def query_movie_by_title(title):
@@ -46,8 +48,8 @@ def query_movie_by_title(title):
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
-        data[str(row[3])] = {'year': str(row[1]), 'rating': str(row[2]), 'title': str(row[0])}
-    return data
+        data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
+    return quote(dumps(data, sort_keys=True))
 
 
 def query_movie_by_year(year):
@@ -59,5 +61,5 @@ def query_movie_by_year(year):
     data = {}
     for row in rows:
         print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
-        data[str(row[3])] = {'year': str(row[1]), 'rating': str(row[2]), 'title': str(row[0])}
-    return data
+        data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
+    return quote(dumps(data, sort_keys=True))

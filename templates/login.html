@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='loginstyles.css') }}">
+</head>
+
+<section class="loginform cf">
+	<form id="form" name="login" action="/records" method="POST" accept-charset="utf-8">
+	    <ul>
+	        <li><label class="label-text" for="user"><h2>Email</h2></label>
+	        <input id="my-email" class="in" type="email" name="user" placeholder="yourname@email.com" required></li>
+	        <li><label class="label-text" for="password"><h2>Password</h2></label>
+	        <input type="password"  class="in" name="password" placeholder="password" required></li>
+	        <li>
+	        <input type="submit" value="Login"></li>
+	    </ul>
+	</form>
+</section>
