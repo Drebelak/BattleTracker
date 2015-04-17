@@ -31,10 +31,8 @@ def get_movie_character_list():
     cursor = database.cursor()
     cursor.execute("SELECT * FROM movie_character ORDER BY battle_ranking ASC")
     rows = cursor.fetchall()
-    print("name\t\t\trole\t\t\tbattle_ranking")
     data = {}
     for row in rows:
-        print(str(row[0]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[2]))
         data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2])}
     return quote(dumps(data, sort_keys=True))
 
@@ -44,9 +42,7 @@ def query_movie_character_by_name(name):
     cursor = database.cursor()
     cursor.execute("SELECT * FROM movie_character WHERE name = %s GROUP BY battle_ranking", name)
     rows = cursor.fetchall()
-    print("name\t\t\trole\t\t\tbattle_ranking")
     data = {}
     for row in rows:
-        print(str(row[0]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[2]))
         data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2])}
     return quote(dumps(data, sort_keys=True))

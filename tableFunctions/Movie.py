@@ -31,10 +31,8 @@ def get_movie_list():
     cursor = database.cursor()
     cursor.execute("SELECT * FROM movie GROUP BY battle_ranking")
     rows = cursor.fetchall()
-    print("battle_ranking\tyear\trating\ttitle")
     data = {}
     for row in rows:
-        print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
     return quote(dumps(data, sort_keys=True))
 
@@ -44,10 +42,8 @@ def query_movie_by_title(title):
     cursor = database.cursor()
     cursor.execute("SELECT * FROM movie WHERE title = %s GROUP BY battle_ranking", title)
     rows = cursor.fetchall()
-    print("battle_ranking\tyear\trating\ttitle")
     data = {}
     for row in rows:
-        print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
     return quote(dumps(data, sort_keys=True))
 
@@ -57,9 +53,7 @@ def query_movie_by_year(year):
     cursor = database.cursor()
     cursor.execute("SELECT * FROM movie WHERE year_produced = %s GROUP BY battle_ranking", year)
     rows = cursor.fetchall()
-    print("battle_ranking\tyear\trating\ttitle")
     data = {}
     for row in rows:
-        print(str(row[3]) + "\t\t\t\t" + str(row[1]) + "\t" + str(row[2]) + "\t\t" + str(row[0]))
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
     return quote(dumps(data, sort_keys=True))
