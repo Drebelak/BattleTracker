@@ -1,4 +1,6 @@
 __author__ = 'dylan'
+from json import dumps
+from urllib import quote
 from Connection import connect
 
 
@@ -30,15 +32,47 @@ def get_battle_list():
     cursor.execute("SELECT * FROM battle GROUP BY ranking")
     rows = cursor.fetchall()
     print("rank\turl\t\t\tcity\t\t\t\tdesc")
+    data = {}
     for row in rows:
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
 
 
 def query_battle_by_city(city):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM battle WHERE city = %s GROUP BY battle_ranking", city)
+    cursor.execute("SELECT * FROM battle WHERE city = %s GROUP BY ranking", city)
     rows = cursor.fetchall()
     print("rank\turl\t\t\tcity\t\t\t\tdesc")
+    data = {}
     for row in rows:
         print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
+
+
+def query_battle_by_ranking(ranking):
+    database = connect()
+    cursor = database.cursor()
+    cursor.execute("SELECT * FROM battle WHERE ranking = %s", ranking)
+    rows = cursor.fetchall()
+    print("rank\turl\t\t\tcity\t\t\t\tdesc")
+    data = {}
+    for row in rows:
+        print(str(row[3]) + "\t\t" + str(row[2]) + "\t\t" + str(row[1]) + "\t\t\t" + str(row[0]))
+        data[str(row[3])] = {'urllink': str(row[2]), 'city': str(row[1]), 'desc': str(row[0])}
+    return quote(dumps(data, sort_keys=True))
+
+
+#get_battle_list()
+
+#add_battle(100, "Mexico City", "Awesome", "NONE")
+
+#edit_battle(100, "Mexico City", "Terrible", "Still None")
+
+#delete_battle(100)
+
+#get_battle_list()
+
+#print query_battle_by_ranking('1')
