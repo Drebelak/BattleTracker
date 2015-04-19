@@ -23,19 +23,23 @@ def search_form():
     category = request.form['category']
     response = ""
     search_type = ""
-    if category == "Battle Ranking":
+
+    if category == "Battle by Ranking":
         response = Battle.query_battle_by_ranking(search_value)
         search_type = "battle"
-    if category == "City":
+    if category == "Battles by City":
         response = Battle.query_battle_by_city(search_value)
         search_type = "battle"
-    if category == "Character":
+    if category == "Characters by Name":
         response = Character.query_movie_character_by_name(search_value)
         search_type = "character"
-    if category == "Movie Title":
+    if category == "Characters by Movie":
+        response = Character.query_movie_character_by_movie(search_value)
+        search_type = "mov_char"
+    if category == "Movies by Title":
         response = Movie.query_movie_by_title(search_value)
         search_type = "movie"
-    if category == "Movie Year":
+    if category == "Movies by Year":
         response = Movie.query_movie_by_year(search_value)
         search_type = "movie"
     if category == "All Battles":
@@ -48,7 +52,6 @@ def search_form():
         response = Movie.get_movie_list()
         search_type = "movie"
 
-    print search_value + " and " + category
     return render_template('home.html', res=response, type=search_type)
 
 
@@ -74,8 +77,6 @@ def records_page():
         attr4 = request.form.get('attr4', None)
         operation = request.form.get('operation', None)
         table = request.form.get('type', None)
-
-        print attr1, attr2, attr3, attr4, table, operation
 
         if table == 'movie':
             if operation == "Add":
@@ -103,46 +104,6 @@ def records_page():
     else:
         return render_template('login.html')
 
-
-@app.route('/api/battles', methods=['GET'])
-def get_all_battles():
-    return jsonify({'battles': Battle.get_battle_list()})
-
-
-@app.route('/api/battles', methods=['GET'])
-def add_battle_to_db(ranking, city, description, video_link):
-    return jsonify({'battles': Battle.add_battle(ranking, city, description, video_link)})
-
-
-@app.route('/api/battles/<city>', methods=['GET'])
-def get_query_battle(city):
-    print(city)
-    return jsonify({'battles': Battle.query_battle_by_city(city)})
-
-
-@app.route('/api/characters', methods=['GET'])
-def get_all_characters():
-    return jsonify({'characters': Character.get_movie_character_list()})
-
-
-@app.route('/api/characters/<name>', methods=['GET'])
-def get_character_by_name(name):
-    return jsonify({'character': Character.query_movie_character_by_name(name)})
-
-
-@app.route('/api/movies', methods=['GET'])
-def get_all_movies():
-    return jsonify({'movies': Movie.get_movie_list()})
-
-
-@app.route('/api/movies/<year>', methods=['GET'])
-def get_movies_by_year(year):
-    return jsonify({'movies': Movie.query_movie_by_year(year)})
-
-
-@app.route('/api/movies/<title>', methods=['GET'])
-def get_movies_by_title(title):
-    return jsonify({'movies': Movie.query_movie_by_title(title)})
 
 if __name__ == '__main__':
     app.run()

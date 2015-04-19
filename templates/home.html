@@ -2,40 +2,42 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Top 100 Battles</title>
-
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='homestyles.css') }}">
 </head>
 
 <body>
+    <form id="loginbutton" class="loginform cf" action="/records" method="GET">
+            <input type="submit" value="Login">
+    </form>
     <h1>Battle Tracker</h1>
-    <h3>You are on our home page</h3>
 
-    <article class="search">
-        <form id = "searchform" action="." method="POST">
-            Search:
+    <section id="mainform" class="loginform cf">
+        <form id = "form" action="." method="POST">
+            <h3 style="color: #ffffff; font-size: 50px;">Search:</h3>
             <label>
-                <input name="sbox" type="text"/>
+                <input id="sbox" name="sbox" type="text" size="80" placeholder=""/>
             </label><br>
-            Category:
-            <label>
-                <select name = "category" form = "searchform">
-                    <option value="Battle Ranking">Battle by Ranking</option>
-                    <option value="City">Battle by City</option>
-                    <option value="Character">Character by Name</option>
-                    <option value="Movie Title">Movie by Title</option>
-                    <option value="Movie Year">Movie by Year</option>
-                    <option value="All Battles">All Battles</option>
-                    <option value="All Characters">All Characters</option>
-                    <option value="All Movies">All Movies</option>
-                </select>
-            </label>
+            <h3>Category:</h3>
+            <span class="custom-dropdown custom-dropdown--white">
+                <label>
+                    <select name="category" form="form" class="custom-dropdown__select custom-dropdown__select--white">
+                        <option value="Battle by Ranking">Battle by Ranking</option>
+                        <option value="Battles by City">Battles by City</option>
+                        <option value="Characters by Name">Characters by Name</option>
+                        <option value="Characters by Movie">Characters by Movie</option>
+                        <option value="Movies by Title">Movies by Title</option>
+                        <option value="Movies by Year">Movies by Year</option>
+                        <option value="All Battles">All Battles</option>
+                        <option value="All Characters">All Characters</option>
+                        <option value="All Movies">All Movies</option>
+                    </select>
+                </label>
+            </span>
             <br>
             <input type="submit" name="submit" value="Search">
         </form>
-        <form action="/records" method="GET">
-            <input type="submit" value="Login">
-        </form>
-    </article>
+
+    </section>
 
     <table id="display">
         <thead id="thead"></thead>
@@ -148,6 +150,34 @@
                 cell2.innerHTML = year;
                 cell3.innerHTML = rating;
                 cell4.innerHTML = b_ranking;
+            }
+        }
+
+        if (type == 'mov_char') {
+            var role_;
+            var title;
+            var b_ranking_;
+            if (header.rows.length > 0) {
+                header.deleteRow(0);
+            }
+            row = header.insertRow(0);
+            makeCells(row);
+            cell1.innerHTML = "Name";
+            cell2.innerHTML = "Role";
+            cell3.innerHTML = "Title";
+            cell4.innerHTML = "Battle";
+            for (var l = Object.keys(obj).length-1; l >= 0; l--) {
+                key = Object.keys(obj)[l];
+                role_ = obj[key].role;
+                title = obj[key].title;
+                b_ranking_ = obj[key].battle_ranking;
+
+                row = body.insertRow(0);
+                makeCells(row);
+                cell1.innerHTML = key;
+                cell2.innerHTML = role_;
+                cell3.innerHTML = title;
+                cell4.innerHTML = b_ranking_;
             }
         }
     </script>

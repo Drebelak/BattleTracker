@@ -40,7 +40,9 @@ def get_movie_list():
 def query_movie_by_title(title):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM movie WHERE title = %s GROUP BY battle_ranking", title)
+    sql = "SELECT * FROM movie WHERE title LIKE %s GROUP BY battle_ranking"
+    args = ['%'+title+'%']
+    cursor.execute(sql, args)
     rows = cursor.fetchall()
     data = {}
     for row in rows:

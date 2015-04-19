@@ -22,7 +22,7 @@ def delete_character(name, battle_ranking):
 def edit_movie_character(name, new_role, battle_rank):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("UPDATE movie_character SET role = %s WHERE name = %s and battle_ranking = %s" , (new_role, name, battle_rank))
+    cursor.execute("UPDATE movie_character SET role = %s WHERE name = %s and battle_ranking = %s", (new_role, name, battle_rank))
     database.commit()
 
 
@@ -40,9 +40,26 @@ def get_movie_character_list():
 def query_movie_character_by_name(name):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM movie_character WHERE name = %s GROUP BY battle_ranking", name)
+    sql = "SELECT * FROM movie_character WHERE name LIKE %s"
+    args = ['%'+name+'%']
+    cursor.execute(sql, args)
     rows = cursor.fetchall()
     data = {}
     for row in rows:
         data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2])}
     return quote(dumps(data, sort_keys=True))
+
+
+def query_movie_character_by_movie(title):
+    database = connect()
+    cursor = database.cursor()
+    sql = "SELECT name, role, title, movie.battle_ranking FROM (movie INNER JOIN movie_character ON movie.battle_ranking=movie_character.battle_ranking) WHERE title LIKE %s"
+    args = ['%'+title+'%']
+    cursor.execute(sql, args)
+    rows = cursor.fetchall()
+    data = {}
+    for row in rows:
+        data[str(row[0])] = {'role': str(row[1]), 'title': str(row[2]), 'battle_ranking': str(row[3])}
+    return quote(dumps(data, sort_keys=True))
+
+#query_movie_character_by_movie('Pirates of the Caribbean : At World\'s End')

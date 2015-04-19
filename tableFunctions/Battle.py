@@ -40,7 +40,9 @@ def get_battle_list():
 def query_battle_by_city(city):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("SELECT * FROM battle WHERE city = %s GROUP BY ranking", city)
+    sql = "SELECT * FROM battle WHERE city LIKE %s GROUP BY ranking"
+    args = ['%'+city+'%']
+    cursor.execute(sql, args)
     rows = cursor.fetchall()
     data = {}
     for row in rows:
