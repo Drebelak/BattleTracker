@@ -206,3 +206,20 @@ label {
     text-align: center;
     font-size: 20px;
 }
+
+#map {
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+}
+
+#content {
+    font-size: 10px;
+    color: black;
+}
+
+#content h1{
+    font-size: 18px;
+    color: black;
+    text-align: center;
+}

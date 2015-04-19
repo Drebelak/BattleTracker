@@ -39,6 +39,10 @@
 
     </section>
 
+    <div id="map"></div>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
     <table id="display">
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
@@ -46,9 +50,8 @@
 
     <script type="text/javascript" >
         var res = '{{ res }}';
-        var type = '{{ type }}'
+        var type = '{{ type }}';
         var text = decodeURIComponent(res).toString();
-        console.log(text);
         var obj = JSON.parse(text);
 
         /*//for testing purposes
@@ -63,6 +66,7 @@
         var cell4 = null;
         var header = document.getElementById("thead");
         var body = document.getElementById("tbody");
+        document.getElementById("map").style.display='none';
 
         function makeCells(_row) {
             cell1 = _row.insertCell(0);
@@ -72,6 +76,7 @@
         }
 
         if (type == 'battle') {
+            document.getElementById("map").style.display='block';
             var city;
             var description;
             var url;
@@ -84,8 +89,30 @@
             cell2.innerHTML = "Location";
             cell3.innerHTML = "Description";
             cell4.innerHTML = "Video Link";
-            for (var i = Object.keys(obj).length-1; i >= 0; i--) {
-                key = Object.keys(obj)[i];
+
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 1,
+                center: new google.maps.LatLng(0, 0),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow({
+                content: "content"
+            });
+
+            function setcontent(x) {
+                infowindow.setContent('<div id="content">' +
+                    '<h1 id="firstHeading" class="firstHeading">' + obj[x].city + '</h1>' +
+                    '<div id="bodyContent">' +
+                    '<p>' + obj[x].desc + '</p>' +
+                    '<p><a href="http://tinyurl.com/' + obj[x].urllink + '">' +
+                    'VideoLink</a></p>' +
+                    '</div>' +
+                    '</div>');
+            }
+
+            for (var x = Object.keys(obj).length-1; x >= 0; x--) {
+                key = Object.keys(obj)[x];
                 city = obj[key].city;
                 description = obj[key].desc;
                 url = "http://tinyurl.com/" + obj[key].urllink;
@@ -96,6 +123,25 @@
                 cell2.innerHTML = city;
                 cell3.innerHTML = description;
                 cell4.innerHTML = url;
+
+                !function outer(key) {
+                    $.getJSON('http://maps.googleapis.com/maps/api/geocode/json?address=' + obj[key].city + '&sensor=false', null, function (data, i) {
+                        var p = data.results[0].geometry.location;
+                        var latlng = new google.maps.LatLng(p.lat, p.lng);
+                        var marker = new google.maps.Marker({
+                            position: latlng,
+                            map: map
+                        });
+
+
+                        google.maps.event.addListener(marker, 'click', (function (marker) {
+                            return function () {
+                                setcontent(key);
+                                infowindow.open(map, marker);
+                            }
+                        })(marker));
+                    });
+                }(key)
             }
         }
 

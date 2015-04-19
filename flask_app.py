@@ -1,5 +1,4 @@
-from flask import Flask, jsonify, render_template, request
-import Database
+from flask import Flask, render_template, request
 import tableFunctions.Battle as Battle
 import tableFunctions.Character as Character
 import tableFunctions.Movie as Movie
