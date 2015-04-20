@@ -148,6 +148,7 @@
         if (type == 'character') {
             var role;
             var ranking;
+            var actor;
             if (header.rows.length > 0) {
                 header.deleteRow(0);
             }
@@ -156,18 +157,19 @@
             cell1.innerHTML = "Name";
             cell2.innerHTML = "Role";
             cell3.innerHTML = "Appears In";
-            cell4.innerHTML = "";
+            cell4.innerHTML = "Played By";
             for (var j = Object.keys(obj).length-1; j >= 0; j--) {
                 key = Object.keys(obj)[j];
                 role = obj[key].role;
                 ranking = obj[key].battle_ranking;
+                actor = obj[key].actor;
 
                 row = body.insertRow(0);
                 makeCells(row);
                 cell1.innerHTML = key;
                 cell2.innerHTML = role;
                 cell3.innerHTML = ranking;
-                cell4.innerHTML = "";
+                cell4.innerHTML = actor;
             }
         }
 

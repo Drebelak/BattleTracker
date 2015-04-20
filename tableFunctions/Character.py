@@ -4,11 +4,11 @@ from urllib import quote
 from Connection import connect
 
 
-def add_character(name, role, battle_ranking):
+def add_character(name, role, battle_ranking, actor):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("INSERT INTO movie_character (name, role, battle_ranking) VALUES(%s, %s, %s)",
-                   (name, role, battle_ranking))
+    cursor.execute("INSERT INTO movie_character (name, role, battle_ranking, actor) VALUES(%s, %s, %s, %s)",
+                   (name, role, battle_ranking, actor))
     database.commit()
 
 
@@ -19,10 +19,11 @@ def delete_character(name, battle_ranking):
     database.commit()
 
 
-def edit_movie_character(name, new_role, battle_rank):
+def edit_movie_character(name, new_role, battle_rank, new_actor):
     database = connect()
     cursor = database.cursor()
-    cursor.execute("UPDATE movie_character SET role = %s WHERE name = %s and battle_ranking = %s", (new_role, name, battle_rank))
+    cursor.execute("UPDATE movie_character SET role = %s, actor = %s WHERE name = %s and battle_ranking = %s",
+                   (new_role, new_actor, name, battle_rank))
     database.commit()
 
 
@@ -33,7 +34,7 @@ def get_movie_character_list():
     rows = cursor.fetchall()
     data = {}
     for row in rows:
-        data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2])}
+        data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2]), 'actor': str(row[3])}
     return quote(dumps(data, sort_keys=True))
 
 
@@ -46,7 +47,7 @@ def query_movie_character_by_name(name):
     rows = cursor.fetchall()
     data = {}
     for row in rows:
-        data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2])}
+        data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2]), 'actor': str(row[3])}
     return quote(dumps(data, sort_keys=True))
 
 

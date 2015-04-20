@@ -6,11 +6,6 @@ import tableFunctions.Movie as Movie
 app = Flask(__name__)
 
 
-@app.route('/test')
-def test_page():
-    return 'This is a Test'
-
-
 @app.route('/')
 def test_flask():
     return render_template('home.html')
@@ -54,12 +49,6 @@ def search_form():
     return render_template('home.html', res=response, type=search_type)
 
 
-@app.route('/map')
-def test_api_flask():
-    battles = Battle.get_battle_list()
-    return render_template('test.html', b=battles)
-
-
 @app.route('/records')
 def login():
     return render_template('login.html')
@@ -86,9 +75,9 @@ def records_page():
                 Movie.delete_movie(attr1)
         elif table == 'character':
             if operation == "Add":
-                Character.add_character(attr1, attr2, attr3)
+                Character.add_character(attr1, attr2, attr3, attr4)
             elif operation == "Edit":
-                Character.edit_movie_character(attr1, attr2, attr3)
+                Character.edit_movie_character(attr1, attr2, attr3, attr4)
             elif operation == "Delete":
                 Character.delete_character(attr1, attr3)
         elif table == 'battle':
