@@ -91,7 +91,3 @@ def records_page():
         return render_template('records.html', user=user, password=password)
     else:
         return render_template('login.html')
-
-
-if __name__ == '__main__':
-    app.run()
