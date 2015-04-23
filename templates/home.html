@@ -3,9 +3,12 @@
 <head lang="en">
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='homestyles.css') }}">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 </head>
 
 <body>
+
+
     <form id="loginbutton" class="loginform cf" action="/records" method="GET">
             <input type="submit" value="Login">
     </form>
@@ -43,11 +46,27 @@
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
+    <div id="modal-background">
+		<div id="modal">
+			<p id="model_text">Actor information</p>
+			<button id="close">Close</button>
+		</div>
+	</div>
+
     <table id="display">
         <thead id="thead"></thead>
         <tbody id="tbody"></tbody>
     </table>
 
+
+    <script type="text/javascript">
+    $(function(){
+        $('#close').click(function(){
+            $('#modal-background').hide();
+            $('#display').show();
+        })
+    })
+ </script>
     <script type="text/javascript" >
         var res = '{{ res }}';
         var type = '{{ type }}';
@@ -92,9 +111,11 @@
 
             var map = new google.maps.Map(document.getElementById('map'), {
                 zoom: 1,
-                center: new google.maps.LatLng(0, 0),
+                center: new google.maps.LatLng(13, 0),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             });
+
+            map.setOptions({minZoom: 2, maxZoom: 4});
 
             var infowindow = new google.maps.InfoWindow({
                 content: "content"
@@ -105,7 +126,7 @@
                     '<h1 id="firstHeading" class="firstHeading">' + obj[x].city + '</h1>' +
                     '<div id="bodyContent">' +
                     '<p>' + obj[x].desc + '</p>' +
-                    '<p><a href="http://tinyurl.com/' + obj[x].urllink + '">' +
+                    '<p><a target="_blank" href="http://tinyurl.com/' + obj[x].urllink + '">' +
                     'VideoLink</a></p>' +
                     '</div>' +
                     '</div>');
@@ -162,7 +183,7 @@
                 key = Object.keys(obj)[j];
                 role = obj[key].role;
                 ranking = obj[key].battle_ranking;
-                actor = obj[key].actor;
+                actor = "<a class="+obj[key].actor+" href='#"+obj[key].actor+"'><p>"+obj[key].actor+"</p></a>";
 
                 row = body.insertRow(0);
                 makeCells(row);
@@ -172,6 +193,32 @@
                 cell4.innerHTML = actor;
             }
         }
+        var data = null;
+        $("a").click(function(event){
+            var actor_str = String(event.currentTarget);
+            actor_str = actor_str.split('#')[1];
+            $.ajax({
+                type : "POST",
+                url : "/",
+                data: {actor_str: actor_str},
+                success: function(result) {
+                    var text = decodeURIComponent(result).toString();
+                    var obj = JSON.parse(text);
+                    var output =
+                            "<b>Name: </b>" + obj['name'] + "<br>"
+                            + "<b>Years Active: </b>" + obj['years_active'] + "<br>"
+                            + "<b>Birth Place: </b>" + obj['birth_place'] + "<br>"
+                            + "<b>Alma Mater: </b>" + obj['alma_mater'] + "<br>"
+                            + "<b>Occupation: </b>" + obj['occupation'] + "<br>"
+                            + "<b>Provided by Wikepedia</b>";
+                    console.log(output);
+                    var modal = document.getElementById('model_text');
+                    modal.innerHTML = output;
+                    $('#display').hide();
+                    $('#modal-background').fadeIn();
+                }
+            })
+        });
 
         if (type == 'movie') {
             var year;

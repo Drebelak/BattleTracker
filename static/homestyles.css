@@ -209,8 +209,8 @@ label {
 
 #map {
     margin: 0 auto;
-    width: 500px;
-    height: 500px;
+    width: 85%;
+    height: 550px;
 }
 
 #content {
@@ -222,4 +222,14 @@ label {
     font-size: 18px;
     color: black;
     text-align: center;
+}
+
+#modal-background{
+    display: none;
+}
+#modal{
+    margin: 0 auto;
+    width: 400px;
+    padding: 20px;
+    background: white;
 }

@@ -1,6 +1,4 @@
 __author__ = 'dylan'
-from json import dumps
-from urllib import quote
 from Connection import connect
 
 
@@ -35,7 +33,7 @@ def get_movie_character_list():
     data = {}
     for row in rows:
         data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2]), 'actor': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
+    return data
 
 
 def query_movie_character_by_name(name):
@@ -48,7 +46,7 @@ def query_movie_character_by_name(name):
     data = {}
     for row in rows:
         data[str(row[0])] = {'role': str(row[1]), 'battle_ranking': str(row[2]), 'actor': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
+    return data
 
 
 def query_movie_character_by_movie(title):
@@ -61,6 +59,4 @@ def query_movie_character_by_movie(title):
     data = {}
     for row in rows:
         data[str(row[0])] = {'role': str(row[1]), 'title': str(row[2]), 'battle_ranking': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
-
-#query_movie_character_by_movie('Pirates of the Caribbean : At World\'s End')
+    return data

@@ -2,6 +2,9 @@ from flask import Flask, render_template, request
 import tableFunctions.Battle as Battle
 import tableFunctions.Character as Character
 import tableFunctions.Movie as Movie
+from scrape_wiki import scrape_wiki
+from urllib import quote
+from json import dumps
 
 app = Flask(__name__)
 
@@ -13,8 +16,20 @@ def test_flask():
 
 @app.route('/', methods=['POST'])
 def search_form():
-    search_value = request.form['sbox']
-    category = request.form['category']
+
+    search_value = ""
+    category = ""
+    info = ""
+
+    if 'sbox' in request.form:
+        search_value = request.form['sbox']
+        category = request.form['category']
+
+    if 'actor_str' in request.form:
+        actor = request.form['actor_str']
+        info = scrape_wiki(actor)
+        return quote(dumps(info, sort_keys=True))
+
     response = ""
     search_type = ""
 
@@ -46,7 +61,7 @@ def search_form():
         response = Movie.get_movie_list()
         search_type = "movie"
 
-    return render_template('home.html', res=response, type=search_type)
+    return render_template('home.html', res=quote(dumps(response, sort_keys=True)), type=search_type)
 
 
 @app.route('/records')
@@ -91,3 +106,15 @@ def records_page():
         return render_template('records.html', user=user, password=password)
     else:
         return render_template('login.html')
+
+
+def get_wiki_info(data):
+    keys = data.keys()
+    info = {}
+    for x in range(0, len(data.keys())):
+        info[data[keys[x]]['actor']] = scrape_wiki(data[keys[x]]['actor'])
+    return info
+
+
+if __name__ == '__main__':
+    app.run()

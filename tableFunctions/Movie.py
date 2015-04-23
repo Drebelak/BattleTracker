@@ -1,6 +1,4 @@
 __author__ = 'dylan'
-from json import dumps
-from urllib import quote
 from Connection import connect
 
 
@@ -34,7 +32,7 @@ def get_movie_list():
     data = {}
     for row in rows:
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
+    return data
 
 
 def query_movie_by_title(title):
@@ -47,7 +45,7 @@ def query_movie_by_title(title):
     data = {}
     for row in rows:
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
+    return data
 
 
 def query_movie_by_year(year):
@@ -58,4 +56,4 @@ def query_movie_by_year(year):
     data = {}
     for row in rows:
         data[str(row[0])] = {'year': str(row[1]), 'rating': str(row[2]), 'battle_ranking': str(row[3])}
-    return quote(dumps(data, sort_keys=True))
+    return data
